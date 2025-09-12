@@ -30,7 +30,6 @@ A modern lead and sales opportunity management application built with React, Typ
 ### 🎨 Modern Interface
 - **Responsive Design**: Interface adaptable for desktop and mobile
 - **Reusable Components**: Design system based on shadcn/ui
-- **Dark/Light Theme**: Theme support (ready for implementation)
 - **Smooth Animations**: Fluid transitions and interactions
 - **Visual Feedback**: Loading, error, and success states
 
@@ -123,46 +122,6 @@ npm run preview
 - `npm run preview` - Build preview
 - `npm run lint` - Linting check
 - `npm run lint:fix` - Automatic linting fix
-
-## 🎯 Main Features
-
-### Lead Management
-1. **Visualization**: Complete list with essential information
-2. **Search**: Search by name or company
-3. **Filters**: Filter by lead status
-4. **Sorting**: Sort by score, name, or company
-5. **Details**: Side panel with complete information
-6. **Editing**: Lead data updates
-7. **Conversion**: Transformation into opportunity
-
-### Opportunity Management
-1. **Creation**: Conversion of qualified leads
-2. **Tracking**: Visual sales pipeline
-3. **Metrics**: Dashboard with financial indicators
-4. **Stages**: Sales progress control
-5. **Values**: Currency formatting in BRL
-
-## 🔧 Configuration
-
-### Environment Variables
-Create a `.env` file in the project root:
-```env
-VITE_APP_TITLE=Mini Seller Console
-VITE_APP_VERSION=1.0.0
-```
-
-### Customization
-- **Themes**: Configure in `src/lib/theme.ts`
-- **Languages**: Add new languages in `src/i18n/locales/`
-- **Components**: Customize in `src/components/ui/`
-
-## 📱 Responsiveness
-
-The application is fully responsive and works perfectly on:
-- 📱 Mobile (320px+)
-- 📱 Tablet (768px+)
-- 💻 Desktop (1024px+)
-- 🖥️ Large screens (1280px+)
 
 ## 🎨 Design System
 
