@@ -118,11 +118,9 @@ export default function App() {
 
     setOpportunities((prev) => [...prev, newOpportunity])
 
-    // Update lead status to qualified
     const updatedLead = { ...lead, status: 'qualified' as const }
     handleLeadUpdate(updatedLead)
 
-    // Close the detail panel
     setIsDetailPanelOpen(false)
   }
 

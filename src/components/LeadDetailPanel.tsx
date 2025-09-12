@@ -148,7 +148,7 @@ export function LeadDetailPanel({
           </SheetTitle>
         </SheetHeader>
 
-        <div className="mt-6 space-y-6 px-4">
+        <div className="mt-6 space-y-6 px-4 overflow-y-auto">
           {/* Lead Score */}
           <div className="p-4 bg-blue-50 rounded-lg">
             <div className="flex items-center justify-between">
@@ -170,7 +170,7 @@ export function LeadDetailPanel({
 
           {/* Basic Information */}
           <div className="space-y-4">
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
               <Input
                 id="name"
@@ -185,7 +185,7 @@ export function LeadDetailPanel({
               )}
             </div>
 
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -204,7 +204,7 @@ export function LeadDetailPanel({
               )}
             </div>
 
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="status">Status</Label>
               <Select
                 value={formData.status}
@@ -230,16 +230,16 @@ export function LeadDetailPanel({
 
           {/* Read-only fields */}
           <div className="space-y-3 p-4 bg-gray-50 rounded-lg">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 space-y-2">
               <Building className="w-4 h-4 text-gray-500" />
               <span className="text-sm text-gray-600">Company:</span>
               <span className="font-medium">{lead.company}</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 space-y-2">
               <span className="text-sm text-gray-600">Source:</span>
               <Badge variant="secondary">{lead.source}</Badge>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 space-y-2">
               <span className="text-sm text-gray-600">ID:</span>
               <span className="font-mono text-sm">{lead.id}</span>
             </div>
