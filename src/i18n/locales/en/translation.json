@@ -1,4 +1,95 @@
 {
   "welcome": "Welcome",
-  "login": "Login"
+  "login": "Login",
+  "app": {
+    "title": "Seller Console",
+    "subtitle": "Manage your leads and opportunities",
+    "tabs": {
+      "leads": "Leads",
+      "opportunities": "Opportunities"
+    }
+  },
+  "leadDetail": {
+    "title": "Lead Details",
+    "leadScore": "Lead Score",
+    "name": "Name",
+    "email": "Email",
+    "status": "Status",
+    "company": "Company",
+    "source": "Source",
+    "id": "ID",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel",
+    "readyToConvert": "Ready to convert?",
+    "convertDescription": "Convert this lead to an opportunity to start tracking deals.",
+    "convertLead": "Convert Lead",
+    "convertToOpportunity": "Convert to Opportunity",
+    "opportunityName": "Opportunity Name",
+    "stage": "Stage",
+    "amount": "Amount (Optional)",
+    "accountName": "Account Name",
+    "createOpportunity": "Create Opportunity",
+    "stages": {
+      "prospecting": "Prospecting",
+      "qualification": "Qualification",
+      "proposal": "Proposal",
+      "negotiation": "Negotiation",
+      "closedWon": "Closed Won",
+      "closedLost": "Closed Lost"
+    },
+    "statuses": {
+      "new": "New",
+      "contacted": "Contacted",
+      "qualified": "Qualified",
+      "unqualified": "Unqualified"
+    },
+    "errors": {
+      "nameRequired": "Name is required",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "opportunityNameRequired": "Opportunity name is required",
+      "accountNameRequired": "Account name is required",
+      "amountInvalid": "Amount must be a valid number"
+    }
+  },
+  "leadsList": {
+    "title": "Leads",
+    "searchPlaceholder": "Search by name or company...",
+    "filterPlaceholder": "Filter by status",
+    "allStatuses": "All statuses",
+    "noLeadsYet": "No leads yet",
+    "noLeadsDescription": "Get started by adding your first lead to the system.",
+    "noLeadsFound": "No leads found",
+    "noLeadsFoundDescription": "Try adjusting your search or filter criteria.",
+    "id": "ID",
+    "name": "Name",
+    "company": "Company",
+    "email": "Email",
+    "source": "Source",
+    "score": "Score",
+    "status": "Status"
+  },
+  "opportunitiesList": {
+    "title": "Opportunities",
+    "totalPipeline": "Total Pipeline",
+    "wonDeals": "Won Deals",
+    "activeOpportunities": "Active Opportunities",
+    "noOpportunitiesYet": "No opportunities yet",
+    "noOpportunitiesDescription": "Convert leads to opportunities to start tracking your sales pipeline.",
+    "id": "ID",
+    "opportunityName": "Opportunity Name",
+    "account": "Account",
+    "leadContact": "Lead Contact",
+    "stage": "Stage",
+    "amount": "Amount",
+    "unknownLead": "Unknown Lead",
+    "stages": {
+      "prospecting": "Prospecting",
+      "qualification": "Qualification",
+      "proposal": "Proposal",
+      "negotiation": "Negotiation",
+      "closedWon": "Closed Won",
+      "closedLost": "Closed Lost"
+    }
+  }
 }

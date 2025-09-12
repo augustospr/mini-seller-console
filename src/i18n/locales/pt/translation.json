@@ -1,4 +1,95 @@
 {
   "welcome": "Bem-vindo",
-  "login": "Entrar"
+  "login": "Entrar",
+  "app": {
+    "title": "Console de Vendas",
+    "subtitle": "Gerencie seus leads e oportunidades",
+    "tabs": {
+      "leads": "Leads",
+      "opportunities": "Oportunidades"
+    }
+  },
+  "leadDetail": {
+    "title": "Detalhes do Lead",
+    "leadScore": "Score do Lead",
+    "name": "Nome",
+    "email": "Email",
+    "status": "Status",
+    "company": "Empresa",
+    "source": "Origem",
+    "id": "ID",
+    "saveChanges": "Salvar Alterações",
+    "cancel": "Cancelar",
+    "readyToConvert": "Pronto para converter?",
+    "convertDescription": "Converta este lead em uma oportunidade para começar a rastrear negócios.",
+    "convertLead": "Converter Lead",
+    "convertToOpportunity": "Converter para Oportunidade",
+    "opportunityName": "Nome da Oportunidade",
+    "stage": "Estágio",
+    "amount": "Valor (Opcional)",
+    "accountName": "Nome da Conta",
+    "createOpportunity": "Criar Oportunidade",
+    "stages": {
+      "prospecting": "Prospecção",
+      "qualification": "Qualificação",
+      "proposal": "Proposta",
+      "negotiation": "Negociação",
+      "closedWon": "Fechado - Ganho",
+      "closedLost": "Fechado - Perdido"
+    },
+    "statuses": {
+      "new": "Novo",
+      "contacted": "Contactado",
+      "qualified": "Qualificado",
+      "unqualified": "Não Qualificado"
+    },
+    "errors": {
+      "nameRequired": "Nome é obrigatório",
+      "emailRequired": "Email é obrigatório",
+      "emailInvalid": "Por favor, insira um endereço de email válido",
+      "opportunityNameRequired": "Nome da oportunidade é obrigatório",
+      "accountNameRequired": "Nome da conta é obrigatório",
+      "amountInvalid": "Valor deve ser um número válido"
+    }
+  },
+  "leadsList": {
+    "title": "Leads",
+    "searchPlaceholder": "Buscar por nome ou empresa...",
+    "filterPlaceholder": "Filtrar por status",
+    "allStatuses": "Todos os status",
+    "noLeadsYet": "Nenhum lead ainda",
+    "noLeadsDescription": "Comece adicionando seu primeiro lead ao sistema.",
+    "noLeadsFound": "Nenhum lead encontrado",
+    "noLeadsFoundDescription": "Tente ajustar seus critérios de busca ou filtro.",
+    "id": "ID",
+    "name": "Nome",
+    "company": "Empresa",
+    "email": "Email",
+    "source": "Origem",
+    "score": "Score",
+    "status": "Status"
+  },
+  "opportunitiesList": {
+    "title": "Oportunidades",
+    "totalPipeline": "Pipeline Total",
+    "wonDeals": "Negócios Ganhos",
+    "activeOpportunities": "Oportunidades Ativas",
+    "noOpportunitiesYet": "Nenhuma oportunidade ainda",
+    "noOpportunitiesDescription": "Converta leads em oportunidades para começar a rastrear seu pipeline de vendas.",
+    "id": "ID",
+    "opportunityName": "Nome da Oportunidade",
+    "account": "Conta",
+    "leadContact": "Contato do Lead",
+    "stage": "Estágio",
+    "amount": "Valor",
+    "unknownLead": "Lead Desconhecido",
+    "stages": {
+      "prospecting": "Prospecção",
+      "qualification": "Qualificação",
+      "proposal": "Proposta",
+      "negotiation": "Negociação",
+      "closedWon": "Fechado - Ganho",
+      "closedLost": "Fechado - Perdido"
+    }
+  }
 }

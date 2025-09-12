@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
+import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { LeadDetailPanel } from './components/LeadDetailPanel'
 import { LeadsList } from './components/LeadsList'
 import { OpportunitiesList } from './components/OpportunitiesList'
@@ -89,6 +91,7 @@ const initialLeads: Lead[] = [
 ]
 
 export default function App() {
+  const { t } = useTranslation()
   const [leads, setLeads] = useState<Lead[]>(initialLeads)
   const [opportunities, setOpportunities] = useState<Opportunity[]>([])
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null)
@@ -128,13 +131,14 @@ export default function App() {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="py-6">
-            <h1 className="text-2xl font-semibold text-gray-900">
-              Seller Console
-            </h1>
-            <p className="mt-1 text-sm text-gray-600">
-              Manage your leads and opportunities
-            </p>
+          <div className="py-6 flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl font-semibold text-gray-900">
+                {t('app.title')}
+              </h1>
+              <p className="mt-1 text-sm text-gray-600">{t('app.subtitle')}</p>
+            </div>
+            <LanguageSwitcher />
           </div>
         </div>
       </div>
@@ -142,9 +146,11 @@ export default function App() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="leads" className="w-full">
           <TabsList className="grid w-full grid-cols-2 max-w-[400px] mb-8">
-            <TabsTrigger value="leads">Leads ({leads.length})</TabsTrigger>
+            <TabsTrigger value="leads">
+              {t('app.tabs.leads')} ({leads.length})
+            </TabsTrigger>
             <TabsTrigger value="opportunities">
-              Opportunities ({opportunities.length})
+              {t('app.tabs.opportunities')} ({opportunities.length})
             </TabsTrigger>
           </TabsList>
 

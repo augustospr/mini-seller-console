@@ -7,6 +7,7 @@ import {
   User,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import type { Lead, Opportunity } from '../App'
 import { Badge } from './ui/badge'
@@ -41,6 +42,7 @@ export function LeadDetailPanel({
   onLeadUpdate,
   onConvertToOpportunity,
 }: LeadDetailPanelProps) {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -82,13 +84,13 @@ export function LeadDetailPanel({
     const newErrors: Record<string, string> = {}
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required'
+      newErrors.name = t('leadDetail.errors.nameRequired')
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required'
+      newErrors.email = t('leadDetail.errors.emailRequired')
     } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email address'
+      newErrors.email = t('leadDetail.errors.emailInvalid')
     }
 
     setErrors(newErrors)
@@ -108,15 +110,15 @@ export function LeadDetailPanel({
     const newErrors: Record<string, string> = {}
 
     if (!opportunityData.name.trim()) {
-      newErrors.opportunityName = 'Opportunity name is required'
+      newErrors.opportunityName = t('leadDetail.errors.opportunityNameRequired')
     }
 
     if (!opportunityData.accountName.trim()) {
-      newErrors.accountName = 'Account name is required'
+      newErrors.accountName = t('leadDetail.errors.accountNameRequired')
     }
 
     if (opportunityData.amount && isNaN(Number(opportunityData.amount))) {
-      newErrors.amount = 'Amount must be a valid number'
+      newErrors.amount = t('leadDetail.errors.amountInvalid')
     }
 
     setErrors(newErrors)
@@ -144,7 +146,7 @@ export function LeadDetailPanel({
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <User className="w-5 h-5" />
-            Lead Details
+            {t('leadDetail.title')}
           </SheetTitle>
         </SheetHeader>
 
@@ -154,7 +156,9 @@ export function LeadDetailPanel({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-blue-600" />
-                <span className="font-medium text-blue-900">Lead Score</span>
+                <span className="font-medium text-blue-900">
+                  {t('leadDetail.leadScore')}
+                </span>
               </div>
               <span className="text-2xl font-bold text-blue-600">
                 {lead.score}
@@ -171,7 +175,7 @@ export function LeadDetailPanel({
           {/* Basic Information */}
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">{t('leadDetail.name')}</Label>
               <Input
                 id="name"
                 value={formData.name}
@@ -186,7 +190,7 @@ export function LeadDetailPanel({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t('leadDetail.email')}</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
@@ -205,7 +209,7 @@ export function LeadDetailPanel({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
+              <Label htmlFor="status">{t('leadDetail.status')}</Label>
               <Select
                 value={formData.status}
                 onValueChange={(value) =>
@@ -219,10 +223,18 @@ export function LeadDetailPanel({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="new">New</SelectItem>
-                  <SelectItem value="contacted">Contacted</SelectItem>
-                  <SelectItem value="qualified">Qualified</SelectItem>
-                  <SelectItem value="unqualified">Unqualified</SelectItem>
+                  <SelectItem value="new">
+                    {t('leadDetail.statuses.new')}
+                  </SelectItem>
+                  <SelectItem value="contacted">
+                    {t('leadDetail.statuses.contacted')}
+                  </SelectItem>
+                  <SelectItem value="qualified">
+                    {t('leadDetail.statuses.qualified')}
+                  </SelectItem>
+                  <SelectItem value="unqualified">
+                    {t('leadDetail.statuses.unqualified')}
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -232,15 +244,21 @@ export function LeadDetailPanel({
           <div className="space-y-3 p-4 bg-gray-50 rounded-lg">
             <div className="flex items-center gap-2 space-y-2">
               <Building className="w-4 h-4 text-gray-500" />
-              <span className="text-sm text-gray-600">Company:</span>
+              <span className="text-sm text-gray-600">
+                {t('leadDetail.company')}:
+              </span>
               <span className="font-medium">{lead.company}</span>
             </div>
             <div className="flex items-center gap-2 space-y-2">
-              <span className="text-sm text-gray-600">Source:</span>
+              <span className="text-sm text-gray-600">
+                {t('leadDetail.source')}:
+              </span>
               <Badge variant="secondary">{lead.source}</Badge>
             </div>
             <div className="flex items-center gap-2 space-y-2">
-              <span className="text-sm text-gray-600">ID:</span>
+              <span className="text-sm text-gray-600">
+                {t('leadDetail.id')}:
+              </span>
               <span className="font-mono text-sm">{lead.id}</span>
             </div>
           </div>
@@ -249,10 +267,10 @@ export function LeadDetailPanel({
           <div className="flex gap-3">
             <Button onClick={handleSave} className="flex-1">
               <Save className="w-4 h-4 mr-2" />
-              Save Changes
+              {t('leadDetail.saveChanges')}
             </Button>
             <Button variant="outline" onClick={onClose}>
-              Cancel
+              {t('leadDetail.cancel')}
             </Button>
           </div>
 
@@ -263,28 +281,30 @@ export function LeadDetailPanel({
             <div className="p-4 border-2 border-dashed border-green-200 rounded-lg">
               <div className="text-center">
                 <h3 className="font-medium text-gray-900 mb-2">
-                  Ready to convert?
+                  {t('leadDetail.readyToConvert')}
                 </h3>
                 <p className="text-sm text-gray-600 mb-4">
-                  Convert this lead to an opportunity to start tracking deals.
+                  {t('leadDetail.convertDescription')}
                 </p>
                 <Button
                   onClick={() => setIsConverting(true)}
                   className="bg-green-600 hover:bg-green-700"
                 >
                   <ArrowRight className="w-4 h-4 mr-2" />
-                  Convert Lead
+                  {t('leadDetail.convertLead')}
                 </Button>
               </div>
             </div>
           ) : (
             <div className="space-y-4 p-4 border border-green-200 rounded-lg bg-green-50">
               <h3 className="font-medium text-green-900 mb-4">
-                Convert to Opportunity
+                {t('leadDetail.convertToOpportunity')}
               </h3>
 
               <div className="space-y-2">
-                <Label htmlFor="opportunityName">Opportunity Name</Label>
+                <Label htmlFor="opportunityName">
+                  {t('leadDetail.opportunityName')}
+                </Label>
                 <Input
                   id="opportunityName"
                   value={opportunityData.name}
@@ -308,7 +328,7 @@ export function LeadDetailPanel({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="stage">Stage</Label>
+                <Label htmlFor="stage">{t('leadDetail.stage')}</Label>
                 <Select
                   value={opportunityData.stage}
                   onValueChange={(value) =>
@@ -322,18 +342,30 @@ export function LeadDetailPanel({
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="prospecting">Prospecting</SelectItem>
-                    <SelectItem value="qualification">Qualification</SelectItem>
-                    <SelectItem value="proposal">Proposal</SelectItem>
-                    <SelectItem value="negotiation">Negotiation</SelectItem>
-                    <SelectItem value="closed-won">Closed Won</SelectItem>
-                    <SelectItem value="closed-lost">Closed Lost</SelectItem>
+                    <SelectItem value="prospecting">
+                      {t('leadDetail.stages.prospecting')}
+                    </SelectItem>
+                    <SelectItem value="qualification">
+                      {t('leadDetail.stages.qualification')}
+                    </SelectItem>
+                    <SelectItem value="proposal">
+                      {t('leadDetail.stages.proposal')}
+                    </SelectItem>
+                    <SelectItem value="negotiation">
+                      {t('leadDetail.stages.negotiation')}
+                    </SelectItem>
+                    <SelectItem value="closed-won">
+                      {t('leadDetail.stages.closedWon')}
+                    </SelectItem>
+                    <SelectItem value="closed-lost">
+                      {t('leadDetail.stages.closedLost')}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="amount">Amount (Optional)</Label>
+                <Label htmlFor="amount">{t('leadDetail.amount')}</Label>
                 <Input
                   id="amount"
                   type="number"
@@ -355,7 +387,9 @@ export function LeadDetailPanel({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="accountName">Account Name</Label>
+                <Label htmlFor="accountName">
+                  {t('leadDetail.accountName')}
+                </Label>
                 <Input
                   id="accountName"
                   value={opportunityData.accountName}
@@ -383,7 +417,7 @@ export function LeadDetailPanel({
                   onClick={handleConvert}
                   className="flex-1 bg-green-600 hover:bg-green-700"
                 >
-                  Create Opportunity
+                  {t('leadDetail.createOpportunity')}
                 </Button>
                 <Button
                   variant="outline"

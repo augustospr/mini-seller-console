@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUp, ArrowUpDown, Filter, Search } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import type { Lead } from '../App'
 import { Badge } from './ui/badge'
@@ -37,18 +38,19 @@ const statusColors = {
   unqualified: 'bg-red-100 text-red-800',
 }
 
-const statusLabels = {
-  new: 'New',
-  contacted: 'Contacted',
-  qualified: 'Qualified',
-  unqualified: 'Unqualified',
-}
-
 export function LeadsList({ leads, onLeadSelect }: LeadsListProps) {
+  const { t } = useTranslation()
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [sortField, setSortField] = useState<SortField>('score')
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
+
+  const statusLabels = {
+    new: t('leadDetail.statuses.new'),
+    contacted: t('leadDetail.statuses.contacted'),
+    qualified: t('leadDetail.statuses.qualified'),
+    unqualified: t('leadDetail.statuses.unqualified'),
+  }
 
   const filteredAndSortedLeads = useMemo(() => {
     const filtered = leads.filter((lead) => {
@@ -113,10 +115,10 @@ export function LeadsList({ leads, onLeadSelect }: LeadsListProps) {
             <Search className="w-8 h-8 text-gray-400" />
           </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            No leads yet
+            {t('leadsList.noLeadsYet')}
           </h3>
           <p className="text-gray-600 text-center max-w-md">
-            Get started by adding your first lead to the system.
+            {t('leadsList.noLeadsDescription')}
           </p>
         </CardContent>
       </Card>
@@ -126,12 +128,12 @@ export function LeadsList({ leads, onLeadSelect }: LeadsListProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Leads</CardTitle>
+        <CardTitle>{t('leadsList.title')}</CardTitle>
         <div className="flex flex-col sm:flex-row gap-4 mt-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
             <Input
-              placeholder="Search by name or company..."
+              placeholder={t('leadsList.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -140,14 +142,22 @@ export function LeadsList({ leads, onLeadSelect }: LeadsListProps) {
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-full sm:w-[180px]">
               <Filter className="w-4 h-4 mr-2" />
-              <SelectValue placeholder="Filter by status" />
+              <SelectValue placeholder={t('leadsList.filterPlaceholder')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All statuses</SelectItem>
-              <SelectItem value="new">New</SelectItem>
-              <SelectItem value="contacted">Contacted</SelectItem>
-              <SelectItem value="qualified">Qualified</SelectItem>
-              <SelectItem value="unqualified">Unqualified</SelectItem>
+              <SelectItem value="all">{t('leadsList.allStatuses')}</SelectItem>
+              <SelectItem value="new">
+                {t('leadDetail.statuses.new')}
+              </SelectItem>
+              <SelectItem value="contacted">
+                {t('leadDetail.statuses.contacted')}
+              </SelectItem>
+              <SelectItem value="qualified">
+                {t('leadDetail.statuses.qualified')}
+              </SelectItem>
+              <SelectItem value="unqualified">
+                {t('leadDetail.statuses.unqualified')}
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -159,10 +169,10 @@ export function LeadsList({ leads, onLeadSelect }: LeadsListProps) {
               <Search className="w-8 h-8 text-gray-400" />
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No leads found
+              {t('leadsList.noLeadsFound')}
             </h3>
             <p className="text-gray-600 text-center max-w-md">
-              Try adjusting your search or filter criteria.
+              {t('leadsList.noLeadsFoundDescription')}
             </p>
           </div>
         ) : (
@@ -170,14 +180,16 @@ export function LeadsList({ leads, onLeadSelect }: LeadsListProps) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">ID</TableHead>
+                  <TableHead className="w-[100px]">
+                    {t('leadsList.id')}
+                  </TableHead>
                   <TableHead>
                     <Button
                       variant="ghost"
                       onClick={() => handleSort('name')}
                       className="h-auto !p-0 font-medium hover:bg-transparent"
                     >
-                      Name {getSortIcon('name')}
+                      {t('leadsList.name')} {getSortIcon('name')}
                     </Button>
                   </TableHead>
                   <TableHead>
@@ -186,21 +198,25 @@ export function LeadsList({ leads, onLeadSelect }: LeadsListProps) {
                       onClick={() => handleSort('company')}
                       className="h-auto !p-0 font-medium hover:bg-transparent"
                     >
-                      Company {getSortIcon('company')}
+                      {t('leadsList.company')} {getSortIcon('company')}
                     </Button>
                   </TableHead>
-                  <TableHead className="hidden md:table-cell">Email</TableHead>
-                  <TableHead className="hidden lg:table-cell">Source</TableHead>
+                  <TableHead className="hidden md:table-cell">
+                    {t('leadsList.email')}
+                  </TableHead>
+                  <TableHead className="hidden lg:table-cell">
+                    {t('leadsList.source')}
+                  </TableHead>
                   <TableHead>
                     <Button
                       variant="ghost"
                       onClick={() => handleSort('score')}
                       className="h-auto !p-0 font-medium hover:bg-transparent"
                     >
-                      Score {getSortIcon('score')}
+                      {t('leadsList.score')} {getSortIcon('score')}
                     </Button>
                   </TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>{t('leadsList.status')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

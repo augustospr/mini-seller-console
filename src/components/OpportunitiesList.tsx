@@ -1,4 +1,5 @@
 import { Building, DollarSign, Target, User } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 import type { Lead, Opportunity } from '../App'
 import { Badge } from './ui/badge'
@@ -26,22 +27,24 @@ const stageColors = {
   'closed-lost': 'bg-red-100 text-red-800',
 }
 
-const stageLabels = {
-  prospecting: 'Prospecting',
-  qualification: 'Qualification',
-  proposal: 'Proposal',
-  negotiation: 'Negotiation',
-  'closed-won': 'Closed Won',
-  'closed-lost': 'Closed Lost',
-}
-
 export function OpportunitiesList({
   opportunities,
   leads,
 }: OpportunitiesListProps) {
+  const { t } = useTranslation()
+
+  const stageLabels = {
+    prospecting: t('opportunitiesList.stages.prospecting'),
+    qualification: t('opportunitiesList.stages.qualification'),
+    proposal: t('opportunitiesList.stages.proposal'),
+    negotiation: t('opportunitiesList.stages.negotiation'),
+    'closed-won': t('opportunitiesList.stages.closedWon'),
+    'closed-lost': t('opportunitiesList.stages.closedLost'),
+  }
+
   const getLeadName = (leadId: string) => {
     const lead = leads.find((l) => l.id === leadId)
-    return lead?.name || 'Unknown Lead'
+    return lead?.name || t('opportunitiesList.unknownLead')
   }
 
   const formatCurrency = (amount?: number) => {
@@ -72,11 +75,10 @@ export function OpportunitiesList({
             <Target className="w-8 h-8 text-gray-400" />
           </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">
-            No opportunities yet
+            {t('opportunitiesList.noOpportunitiesYet')}
           </h3>
           <p className="text-gray-600 text-center max-w-md">
-            Convert leads to opportunities to start tracking your sales
-            pipeline.
+            {t('opportunitiesList.noOpportunitiesDescription')}
           </p>
         </CardContent>
       </Card>
@@ -92,7 +94,7 @@ export function OpportunitiesList({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
-                  Total Pipeline
+                  {t('opportunitiesList.totalPipeline')}
                 </p>
                 <p className="text-2xl font-bold text-gray-900">
                   {formatCurrency(totalValue)}
@@ -109,7 +111,9 @@ export function OpportunitiesList({
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Won Deals</p>
+                <p className="text-sm font-medium text-gray-600">
+                  {t('opportunitiesList.wonDeals')}
+                </p>
                 <p className="text-2xl font-bold text-green-600">
                   {formatCurrency(totalWonValue)}
                 </p>
@@ -126,7 +130,7 @@ export function OpportunitiesList({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">
-                  Active Opportunities
+                  {t('opportunitiesList.activeOpportunities')}
                 </p>
                 <p className="text-2xl font-bold text-gray-900">
                   {opportunities.length}
@@ -143,21 +147,27 @@ export function OpportunitiesList({
       {/* Opportunities Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Opportunities</CardTitle>
+          <CardTitle>{t('opportunitiesList.title')}</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[100px]">ID</TableHead>
-                  <TableHead>Opportunity Name</TableHead>
-                  <TableHead>Account</TableHead>
-                  <TableHead className="hidden md:table-cell">
-                    Lead Contact
+                  <TableHead className="w-[100px]">
+                    {t('opportunitiesList.id')}
                   </TableHead>
-                  <TableHead>Stage</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
+                  <TableHead>
+                    {t('opportunitiesList.opportunityName')}
+                  </TableHead>
+                  <TableHead>{t('opportunitiesList.account')}</TableHead>
+                  <TableHead className="hidden md:table-cell">
+                    {t('opportunitiesList.leadContact')}
+                  </TableHead>
+                  <TableHead>{t('opportunitiesList.stage')}</TableHead>
+                  <TableHead className="text-right">
+                    {t('opportunitiesList.amount')}
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
