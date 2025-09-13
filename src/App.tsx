@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 
 import { LanguageSwitcher } from './components/LanguageSwitcher'
 import { LeadDetailPanel } from './components/LeadDetailPanel'
 import { LeadsList } from './components/LeadsList'
 import { OpportunitiesList } from './components/OpportunitiesList'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs'
+import { useOptimisticList } from './hooks/useOptimisticUpdates'
 
 export interface Lead {
   id: string
@@ -92,10 +94,44 @@ const initialLeads: Lead[] = [
 
 export default function App() {
   const { t } = useTranslation()
-  const [leads, setLeads] = useState<Lead[]>(initialLeads)
-  const [opportunities, setOpportunities] = useState<Opportunity[]>([])
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null)
   const [isDetailPanelOpen, setIsDetailPanelOpen] = useState(false)
+
+  const leadsState = useOptimisticList(
+    initialLeads,
+    async (leads) => {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      return leads
+    },
+    {
+      simulateFailure: true,
+      failureRate: 0.3,
+      onSuccess: () => {
+        toast.success(t('app.optimistic.success'))
+      },
+      onError: (error) => {
+        toast.error(t('app.optimistic.error', { message: error.message }))
+      },
+    },
+  )
+
+  const opportunitiesState = useOptimisticList<Opportunity>(
+    [],
+    async (opportunities) => {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      return opportunities
+    },
+    {
+      simulateFailure: true,
+      failureRate: 0.2,
+      onSuccess: () => {
+        toast.success(t('app.optimistic.success'))
+      },
+      onError: (error) => {
+        toast.error(t('app.optimistic.error', { message: error.message }))
+      },
+    },
+  )
 
   const handleLeadSelect = (lead: Lead) => {
     setSelectedLead(lead)
@@ -103,9 +139,7 @@ export default function App() {
   }
 
   const handleLeadUpdate = (updatedLead: Lead) => {
-    setLeads((prev) =>
-      prev.map((lead) => (lead.id === updatedLead.id ? updatedLead : lead)),
-    )
+    leadsState.updateItem(updatedLead.id, updatedLead)
     setSelectedLead(updatedLead)
   }
 
@@ -114,15 +148,16 @@ export default function App() {
     opportunityData: Omit<Opportunity, 'id' | 'leadId'>,
   ) => {
     const newOpportunity: Opportunity = {
-      id: `O${opportunities.length + 1}`.padStart(4, '0'),
+      id: `O${opportunitiesState.data.length + 1}`.padStart(4, '0'),
       leadId: lead.id,
       ...opportunityData,
     }
 
-    setOpportunities((prev) => [...prev, newOpportunity])
+    opportunitiesState.addItem(newOpportunity)
 
     const updatedLead = { ...lead, status: 'qualified' as const }
-    handleLeadUpdate(updatedLead)
+    leadsState.updateItem(lead.id, updatedLead)
+    setSelectedLead(updatedLead)
 
     setIsDetailPanelOpen(false)
   }
@@ -147,19 +182,37 @@ export default function App() {
         <Tabs defaultValue="leads" className="w-full">
           <TabsList className="grid w-full grid-cols-2 max-w-[400px] mb-8">
             <TabsTrigger value="leads">
-              {t('app.tabs.leads')} ({leads.length})
+              {t('app.tabs.leads')} ({leadsState.data.length})
+              {leadsState.isPending && (
+                <span className="ml-2 text-xs text-blue-600">●</span>
+              )}
             </TabsTrigger>
             <TabsTrigger value="opportunities">
-              {t('app.tabs.opportunities')} ({opportunities.length})
+              {t('app.tabs.opportunities')} ({opportunitiesState.data.length})
+              {opportunitiesState.isPending && (
+                <span className="ml-2 text-xs text-blue-600">●</span>
+              )}
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="leads" className="space-y-6">
-            <LeadsList leads={leads} onLeadSelect={handleLeadSelect} />
+            <LeadsList
+              leads={leadsState.data}
+              onLeadSelect={handleLeadSelect}
+              isPending={leadsState.isPending}
+              error={leadsState.error}
+              onRetry={() => leadsState.resetError()}
+            />
           </TabsContent>
 
           <TabsContent value="opportunities" className="space-y-6">
-            <OpportunitiesList opportunities={opportunities} leads={leads} />
+            <OpportunitiesList
+              opportunities={opportunitiesState.data}
+              leads={leadsState.data}
+              isPending={opportunitiesState.isPending}
+              error={opportunitiesState.error}
+              onRetry={() => opportunitiesState.resetError()}
+            />
           </TabsContent>
         </Tabs>
       </div>

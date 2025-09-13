@@ -1,8 +1,17 @@
-import { Building, DollarSign, Target, User } from 'lucide-react'
+import {
+  AlertCircle,
+  Building,
+  DollarSign,
+  RefreshCw,
+  Target,
+  User,
+} from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
 import type { Lead, Opportunity } from '../App'
+import { Alert, AlertDescription } from './ui/alert'
 import { Badge } from './ui/badge'
+import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import {
   Table,
@@ -16,6 +25,9 @@ import {
 interface OpportunitiesListProps {
   opportunities: Opportunity[]
   leads: Lead[]
+  isPending?: boolean
+  error?: Error | null
+  onRetry?: () => void
 }
 
 const stageColors = {
@@ -30,6 +42,9 @@ const stageColors = {
 export function OpportunitiesList({
   opportunities,
   leads,
+  isPending,
+  error,
+  onRetry,
 }: OpportunitiesListProps) {
   const { t } = useTranslation()
 
@@ -87,6 +102,29 @@ export function OpportunitiesList({
 
   return (
     <div className="space-y-6">
+      {/* Error Alert */}
+      {error && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription className="flex items-center justify-between">
+            <span>
+              {t('opportunitiesList.error', { message: error.message })}
+            </span>
+            {onRetry && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onRetry}
+                className="ml-4"
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                {t('opportunitiesList.retry')}
+              </Button>
+            )}
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
@@ -147,7 +185,12 @@ export function OpportunitiesList({
       {/* Opportunities Table */}
       <Card>
         <CardHeader>
-          <CardTitle>{t('opportunitiesList.title')}</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            {t('opportunitiesList.title')}
+            {isPending && (
+              <RefreshCw className="w-4 h-4 animate-spin text-blue-600" />
+            )}
+          </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto">

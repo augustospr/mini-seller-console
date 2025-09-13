@@ -7,6 +7,10 @@
     "tabs": {
       "leads": "Leads",
       "opportunities": "Opportunities"
+    },
+    "optimistic": {
+      "success": "Changes saved successfully!",
+      "error": "Error saving: {{message}}"
     }
   },
   "leadDetail": {
@@ -68,7 +72,9 @@
     "source": "Source",
     "score": "Score",
     "status": "Status",
-    "clearFilters": "Clear Filters"
+    "clearFilters": "Clear Filters",
+    "error": "Error loading leads: {{message}}",
+    "retry": "Retry"
   },
   "opportunitiesList": {
     "title": "Opportunities",
@@ -91,6 +97,8 @@
       "negotiation": "Negotiation",
       "closedWon": "Closed Won",
       "closedLost": "Closed Lost"
-    }
+    },
+    "error": "Error loading opportunities: {{message}}",
+    "retry": "Retry"
   }
 }
