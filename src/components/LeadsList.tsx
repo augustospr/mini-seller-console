@@ -1,8 +1,16 @@
-import { ArrowDown, ArrowUp, ArrowUpDown, Filter, Search } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import {
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown,
+  Filter,
+  Search,
+  X,
+} from 'lucide-react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import type { Lead } from '../App'
+import { useFilterSortState } from '../hooks/useLocalStorage'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
@@ -40,10 +48,22 @@ const statusColors = {
 
 export function LeadsList({ leads, onLeadSelect }: LeadsListProps) {
   const { t } = useTranslation()
-  const [searchTerm, setSearchTerm] = useState('')
-  const [statusFilter, setStatusFilter] = useState<string>('all')
-  const [sortField, setSortField] = useState<SortField>('score')
-  const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
+
+  // Initialize filter and sort state with localStorage persistence
+  const { state, updateState, resetState } = useFilterSortState(
+    'leads-filter-sort',
+    {
+      searchTerm: '',
+      statusFilter: 'all',
+      sortField: 'score' as SortField,
+      sortDirection: 'desc' as SortDirection,
+    },
+  )
+
+  const { searchTerm, statusFilter, sortField, sortDirection } = state
+
+  // Check if any filters are active
+  const hasActiveFilters = searchTerm !== '' || statusFilter !== 'all'
 
   const statusLabels = {
     new: t('leadDetail.statuses.new'),
@@ -89,10 +109,14 @@ export function LeadsList({ leads, onLeadSelect }: LeadsListProps) {
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+      updateState({
+        sortDirection: sortDirection === 'asc' ? 'desc' : 'asc',
+      })
     } else {
-      setSortField(field)
-      setSortDirection(field === 'score' ? 'desc' : 'asc')
+      updateState({
+        sortField: field,
+        sortDirection: field === 'score' ? 'desc' : 'asc',
+      })
     }
   }
 
@@ -135,11 +159,14 @@ export function LeadsList({ leads, onLeadSelect }: LeadsListProps) {
             <Input
               placeholder={t('leadsList.searchPlaceholder')}
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => updateState({ searchTerm: e.target.value })}
               className="pl-10"
             />
           </div>
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <Select
+            value={statusFilter}
+            onValueChange={(value) => updateState({ statusFilter: value })}
+          >
             <SelectTrigger className="w-full sm:w-[180px]">
               <Filter className="w-4 h-4 mr-2" />
               <SelectValue placeholder={t('leadsList.filterPlaceholder')} />
@@ -160,6 +187,17 @@ export function LeadsList({ leads, onLeadSelect }: LeadsListProps) {
               </SelectItem>
             </SelectContent>
           </Select>
+          {hasActiveFilters && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={resetState}
+              className="w-full sm:w-auto"
+            >
+              <X className="w-4 h-4 mr-2" />
+              {t('leadsList.clearFilters')}
+            </Button>
+          )}
         </div>
       </CardHeader>
       <CardContent className="p-0">

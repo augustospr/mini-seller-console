@@ -67,7 +67,8 @@
     "email": "Email",
     "source": "Source",
     "score": "Score",
-    "status": "Status"
+    "status": "Status",
+    "clearFilters": "Clear Filters"
   },
   "opportunitiesList": {
     "title": "Opportunities",
