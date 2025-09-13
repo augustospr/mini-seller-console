@@ -188,48 +188,50 @@ export function LeadsList({
               <RefreshCw className="w-4 h-4 animate-spin text-blue-600" />
             )}
           </CardTitle>
-          <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input
-                placeholder={t('leadsList.searchPlaceholder')}
-                value={searchTerm}
-                onChange={(e) => updateState({ searchTerm: e.target.value })}
-                className="pl-10"
-              />
+          <div className="flex flex-col gap-3 mt-4">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Input
+                  placeholder={t('leadsList.searchPlaceholder')}
+                  value={searchTerm}
+                  onChange={(e) => updateState({ searchTerm: e.target.value })}
+                  className="pl-10 text-sm"
+                />
+              </div>
+              <Select
+                value={statusFilter}
+                onValueChange={(value) => updateState({ statusFilter: value })}
+              >
+                <SelectTrigger className="w-full sm:w-[180px] text-sm">
+                  <Filter className="w-4 h-4 mr-2" />
+                  <SelectValue placeholder={t('leadsList.filterPlaceholder')} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">
+                    {t('leadsList.allStatuses')}
+                  </SelectItem>
+                  <SelectItem value="new">
+                    {t('leadDetail.statuses.new')}
+                  </SelectItem>
+                  <SelectItem value="contacted">
+                    {t('leadDetail.statuses.contacted')}
+                  </SelectItem>
+                  <SelectItem value="qualified">
+                    {t('leadDetail.statuses.qualified')}
+                  </SelectItem>
+                  <SelectItem value="unqualified">
+                    {t('leadDetail.statuses.unqualified')}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-            <Select
-              value={statusFilter}
-              onValueChange={(value) => updateState({ statusFilter: value })}
-            >
-              <SelectTrigger className="w-full sm:w-[180px]">
-                <Filter className="w-4 h-4 mr-2" />
-                <SelectValue placeholder={t('leadsList.filterPlaceholder')} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">
-                  {t('leadsList.allStatuses')}
-                </SelectItem>
-                <SelectItem value="new">
-                  {t('leadDetail.statuses.new')}
-                </SelectItem>
-                <SelectItem value="contacted">
-                  {t('leadDetail.statuses.contacted')}
-                </SelectItem>
-                <SelectItem value="qualified">
-                  {t('leadDetail.statuses.qualified')}
-                </SelectItem>
-                <SelectItem value="unqualified">
-                  {t('leadDetail.statuses.unqualified')}
-                </SelectItem>
-              </SelectContent>
-            </Select>
             {hasActiveFilters && (
               <Button
                 variant="outline"
                 size="sm"
                 onClick={resetState}
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto self-start"
               >
                 <X className="w-4 h-4 mr-2" />
                 {t('leadsList.clearFilters')}
@@ -237,7 +239,7 @@ export function LeadsList({
             )}
           </div>
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent className="py-0 px-2">
           {filteredAndSortedLeads.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
@@ -251,88 +253,152 @@ export function LeadsList({
               </p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[100px]">
-                      {t('leadsList.id')}
-                    </TableHead>
-                    <TableHead>
-                      <Button
-                        variant="ghost"
-                        onClick={() => handleSort('name')}
-                        className="h-auto !p-0 font-medium hover:bg-transparent"
+            <>
+              <div className="hidden lg:block overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[100px]">
+                        {t('leadsList.id')}
+                      </TableHead>
+                      <TableHead>
+                        <Button
+                          variant="ghost"
+                          onClick={() => handleSort('name')}
+                          className="h-auto !p-0 font-medium hover:bg-transparent"
+                        >
+                          {t('leadsList.name')} {getSortIcon('name')}
+                        </Button>
+                      </TableHead>
+                      <TableHead>
+                        <Button
+                          variant="ghost"
+                          onClick={() => handleSort('company')}
+                          className="h-auto !p-0 font-medium hover:bg-transparent"
+                        >
+                          {t('leadsList.company')} {getSortIcon('company')}
+                        </Button>
+                      </TableHead>
+                      <TableHead className="hidden md:table-cell">
+                        {t('leadsList.email')}
+                      </TableHead>
+                      <TableHead className="hidden lg:table-cell">
+                        {t('leadsList.source')}
+                      </TableHead>
+                      <TableHead>
+                        <Button
+                          variant="ghost"
+                          onClick={() => handleSort('score')}
+                          className="h-auto !p-0 font-medium hover:bg-transparent"
+                        >
+                          {t('leadsList.score')} {getSortIcon('score')}
+                        </Button>
+                      </TableHead>
+                      <TableHead>{t('leadsList.status')}</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredAndSortedLeads.map((lead) => (
+                      <TableRow
+                        key={lead.id}
+                        className="cursor-pointer hover:bg-gray-50 transition-colors"
+                        onClick={() => onLeadSelect(lead)}
                       >
-                        {t('leadsList.name')} {getSortIcon('name')}
-                      </Button>
-                    </TableHead>
-                    <TableHead>
-                      <Button
-                        variant="ghost"
-                        onClick={() => handleSort('company')}
-                        className="h-auto !p-0 font-medium hover:bg-transparent"
-                      >
-                        {t('leadsList.company')} {getSortIcon('company')}
-                      </Button>
-                    </TableHead>
-                    <TableHead className="hidden md:table-cell">
-                      {t('leadsList.email')}
-                    </TableHead>
-                    <TableHead className="hidden lg:table-cell">
-                      {t('leadsList.source')}
-                    </TableHead>
-                    <TableHead>
-                      <Button
-                        variant="ghost"
-                        onClick={() => handleSort('score')}
-                        className="h-auto !p-0 font-medium hover:bg-transparent"
-                      >
-                        {t('leadsList.score')} {getSortIcon('score')}
-                      </Button>
-                    </TableHead>
-                    <TableHead>{t('leadsList.status')}</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredAndSortedLeads.map((lead) => (
-                    <TableRow
-                      key={lead.id}
-                      className="cursor-pointer hover:bg-gray-50 transition-colors"
-                      onClick={() => onLeadSelect(lead)}
-                    >
-                      <TableCell className="font-mono">{lead.id}</TableCell>
-                      <TableCell className="font-medium">{lead.name}</TableCell>
-                      <TableCell>{lead.company}</TableCell>
-                      <TableCell className="hidden md:table-cell text-gray-600">
-                        {lead.email}
-                      </TableCell>
-                      <TableCell className="hidden lg:table-cell">
-                        <span className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 text-gray-800">
-                          {lead.source}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">{lead.score}</span>
-                          <div className="w-12 bg-gray-200 rounded-full h-2">
-                            <div
-                              className="bg-blue-600 h-2 rounded-full transition-all"
-                              style={{ width: `${lead.score}%` }}
-                            />
+                        <TableCell className="font-mono">{lead.id}</TableCell>
+                        <TableCell className="font-medium">
+                          {lead.name}
+                        </TableCell>
+                        <TableCell>{lead.company}</TableCell>
+                        <TableCell className="hidden md:table-cell text-gray-600">
+                          {lead.email}
+                        </TableCell>
+                        <TableCell className="hidden lg:table-cell">
+                          <span className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 text-gray-800">
+                            {lead.source}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">{lead.score}</span>
+                            <div className="w-12 bg-gray-200 rounded-full h-2">
+                              <div
+                                className="bg-blue-600 h-2 rounded-full transition-all"
+                                style={{ width: `${lead.score}%` }}
+                              />
+                            </div>
                           </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge className={statusColors[lead.status]}>
+                            {statusLabels[lead.status]}
+                          </Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+
+              <div className="lg:hidden space-y-3">
+                {filteredAndSortedLeads.map((lead) => (
+                  <Card
+                    key={lead.id}
+                    className="cursor-pointer hover:bg-gray-50 transition-colors"
+                    onClick={() => onLeadSelect(lead)}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex justify-between items-start mb-3">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-gray-900 truncate">
+                            {lead.name}
+                          </h3>
+                          <p className="text-sm text-gray-600 truncate">
+                            {lead.company}
+                          </p>
                         </div>
-                      </TableCell>
-                      <TableCell>
                         <Badge className={statusColors[lead.status]}>
                           {statusLabels[lead.status]}
                         </Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-500">ID:</span>
+                          <span className="font-mono">{lead.id}</span>
+                        </div>
+
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-500">Email:</span>
+                          <span className="text-gray-900 truncate ml-2">
+                            {lead.email}
+                          </span>
+                        </div>
+
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-500">Score:</span>
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">{lead.score}</span>
+                            <div className="w-16 bg-gray-200 rounded-full h-2">
+                              <div
+                                className="bg-blue-600 h-2 rounded-full transition-all"
+                                style={{ width: `${lead.score}%` }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-500">Source:</span>
+                          <span className="inline-flex items-center px-2 py-1 rounded-md text-xs bg-gray-100 text-gray-800">
+                            {lead.source}
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </>
           )}
         </CardContent>
       </Card>

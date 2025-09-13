@@ -144,14 +144,13 @@ export function LeadDetailPanel({
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="w-full sm:max-w-md">
         <SheetHeader>
-          <SheetTitle className="flex items-center gap-2">
+          <SheetTitle className="flex items-center gap-2 text-lg">
             <User className="w-5 h-5" />
             {t('leadDetail.title')}
           </SheetTitle>
         </SheetHeader>
 
-        <div className="mt-6 space-y-6 px-4 overflow-y-auto">
-          {/* Lead Score */}
+        <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-6 px-2 sm:px-4 overflow-y-auto max-h-[calc(100vh-8rem)]">
           <div className="p-4 bg-blue-50 rounded-lg">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -172,7 +171,6 @@ export function LeadDetailPanel({
             </div>
           </div>
 
-          {/* Basic Information */}
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">{t('leadDetail.name')}</Label>
@@ -240,7 +238,6 @@ export function LeadDetailPanel({
             </div>
           </div>
 
-          {/* Read-only fields */}
           <div className="space-y-3 p-4 bg-gray-50 rounded-lg">
             <div className="flex items-center gap-2 space-y-2">
               <Building className="w-4 h-4 text-gray-500" />
@@ -263,20 +260,18 @@ export function LeadDetailPanel({
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-3">
-            <Button onClick={handleSave} className="flex-1">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button onClick={handleSave} className="flex-1 text-sm">
               <Save className="w-4 h-4 mr-2" />
               {t('leadDetail.saveChanges')}
             </Button>
-            <Button variant="outline" onClick={onClose}>
+            <Button variant="outline" onClick={onClose} className="text-sm">
               {t('leadDetail.cancel')}
             </Button>
           </div>
 
           <Separator />
 
-          {/* Convert to Opportunity Section */}
           {!isConverting ? (
             <div className="p-4 border-2 border-dashed border-green-200 rounded-lg">
               <div className="text-center">
@@ -412,16 +407,17 @@ export function LeadDetailPanel({
                 )}
               </div>
 
-              <div className="flex gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <Button
                   onClick={handleConvert}
-                  className="flex-1 bg-green-600 hover:bg-green-700"
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-sm"
                 >
                   {t('leadDetail.createOpportunity')}
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => setIsConverting(false)}
+                  className="text-sm"
                 >
                   Cancel
                 </Button>

@@ -166,31 +166,39 @@ export default function App() {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="py-6 flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-semibold text-gray-900">
+          <div className="py-4 sm:py-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 truncate">
                 {t('app.title')}
               </h1>
-              <p className="mt-1 text-sm text-gray-600">{t('app.subtitle')}</p>
+              <p className="mt-1 text-xs sm:text-sm text-gray-600 truncate">
+                {t('app.subtitle')}
+              </p>
             </div>
-            <LanguageSwitcher />
+            <div className="flex-shrink-0">
+              <LanguageSwitcher />
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <Tabs defaultValue="leads" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 max-w-[400px] mb-8">
-            <TabsTrigger value="leads">
-              {t('app.tabs.leads')} ({leadsState.data.length})
+          <TabsList className="grid w-full grid-cols-2 max-w-[400px] mb-6 sm:mb-8">
+            <TabsTrigger value="leads" className="text-xs sm:text-sm">
+              <span className="truncate">
+                {t('app.tabs.leads')} ({leadsState.data.length})
+              </span>
               {leadsState.isPending && (
-                <span className="ml-2 text-xs text-blue-600">●</span>
+                <span className="ml-1 text-xs text-blue-600">●</span>
               )}
             </TabsTrigger>
-            <TabsTrigger value="opportunities">
-              {t('app.tabs.opportunities')} ({opportunitiesState.data.length})
+            <TabsTrigger value="opportunities" className="text-xs sm:text-sm">
+              <span className="truncate">
+                {t('app.tabs.opportunities')} ({opportunitiesState.data.length})
+              </span>
               {opportunitiesState.isPending && (
-                <span className="ml-2 text-xs text-blue-600">●</span>
+                <span className="ml-1 text-xs text-blue-600">●</span>
               )}
             </TabsTrigger>
           </TabsList>
