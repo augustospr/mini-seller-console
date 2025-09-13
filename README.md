@@ -29,6 +29,7 @@ A modern lead and sales opportunity management application built with React, Typ
 
 ### 🎨 Modern Interface
 - **Responsive Design**: Interface adaptable for desktop and mobile
+- **Mobile-First Approach**: Optimized cards layout for mobile devices
 - **Reusable Components**: Design system based on shadcn/ui
 - **Smooth Animations**: Fluid transitions and interactions
 - **Visual Feedback**: Loading, error, and success states
@@ -37,6 +38,17 @@ A modern lead and sales opportunity management application built with React, Typ
 - **Multi-language Support**: Portuguese and English
 - **Flexible Configuration**: Easy addition of new languages
 - **Smart Fallback**: Automatic fallback to default language
+
+### 💾 Data Persistence
+- **Filter Persistence**: Search and filter states saved in localStorage
+- **Sort Persistence**: Table sorting preferences maintained across sessions
+- **State Recovery**: Automatic restoration of user preferences on page reload
+
+### ⚡ Advanced UX Features
+- **Optimistic Updates**: Instant UI updates with automatic rollback on failure
+- **Error Handling**: Comprehensive error states with retry functionality
+- **Loading States**: Visual indicators for pending operations
+- **Toast Notifications**: Real-time feedback for user actions
 
 ## 🛠️ Technologies Used
 
@@ -66,6 +78,11 @@ A modern lead and sales opportunity management application built with React, Typ
 - **Embla Carousel 8.3.1** - Image carousel
 - **Sonner 1.7.3** - Toast notifications
 
+### Custom Hooks
+- **useLocalStorage** - Persistent state management with localStorage
+- **useOptimisticUpdates** - Optimistic UI updates with rollback support
+- **useFilterSortState** - Filter and sort state with persistence
+
 ### Development
 - **ESLint 9.23.0** - Code linting
 - **Prettier 3.5.3** - Code formatting
@@ -81,7 +98,11 @@ src/
 │   ├── ui/                 # Base components (shadcn/ui)
 │   ├── LeadsList.tsx       # Leads list
 │   ├── LeadDetailPanel.tsx # Lead details panel
-│   └── OpportunitiesList.tsx # Opportunities list
+│   ├── OpportunitiesList.tsx # Opportunities list
+│   └── LanguageSwitcher.tsx # Language selection component
+├── hooks/                  # Custom React hooks
+│   ├── useLocalStorage.ts  # localStorage persistence hook
+│   └── useOptimisticUpdates.ts # Optimistic updates hook
 ├── i18n/                   # Internationalization setup
 │   ├── locales/
 │   │   ├── pt/            # Portuguese translations
